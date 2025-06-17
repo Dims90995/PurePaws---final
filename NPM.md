@@ -16,6 +16,7 @@ npm install dotenv
 npm install --save-dev vite
 npm install cors
 npm init @eslint/config@latest
+npm install react-router-dom 
 
 
 to run backend :

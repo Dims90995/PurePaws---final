@@ -11,17 +11,20 @@ const featuredStores = [
 export default function Home() {
   return (
     <>
+
+<header><img src="./assets/logo.png" alt="logo" /></header>
+
       {/* Navbar */}
       <nav className="navbar">
         <div className="container">
           <div className="logo">
-            <Link to="/">PetStore</Link>
+            
           </div>
           <div className="nav-links">
-            <Link to="/">Home</Link>
-            <Link to="/stores">Stores</Link>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
+            <button>Home</button>
+            <button>Shop by Pet</button>
+            <button>Stores</button>
+            <button>Learning</button>
           </div>
         </div>
       </nav>
