@@ -8,7 +8,6 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        
       </Routes>
     </Router>
   );
