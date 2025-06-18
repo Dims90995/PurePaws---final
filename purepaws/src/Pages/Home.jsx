@@ -11,10 +11,7 @@ const featuredStores = [
 export default function Home() {
   return (
     <>
-
-<header><img src="./assets/logo.png" alt="logo" /></header>
-
-      {/* Navbar */}
+      
       <nav className="navbar">
         <div className="container">
           <div className="logo">
@@ -29,7 +26,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      
       <section className="hero">
         <div className="hero-content container">
           <h1>Welcome to PetStore</h1>
@@ -38,7 +35,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Stores */}
+      
       <section className="featured-stores">
         <div className="container">
           <h2>Featured Stores</h2>
@@ -60,7 +57,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
+      
       <footer className="footer">
         <div className="container">
           <p>&copy; {new Date().getFullYear()} PetStore. All rights reserved.</p>
