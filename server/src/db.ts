@@ -11,5 +11,5 @@ export const pool = new Pool({
   database: String(process.env.PG_DATABASE),
   password: String(process.env.PG_PASSWORD),
   port: Number(process.env.PG_PORT),
-  ssl: process.env.PG_SSL === 'true' ? { rejectUnauthorized: false } : false,
+  ssl: process.env.PG_SSL === 'true' ? { rejectUnauthorized: false } : undefined,
 });

@@ -4,5 +4,6 @@ export interface Ad {
   price: number;
   description: string;
   categoryId: string;
+  location: string;
   dynamicFields: Record<string, any>;
 }

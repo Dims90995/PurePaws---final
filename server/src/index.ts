@@ -1,22 +1,14 @@
 import dotenv from 'dotenv';
-import { Pool } from 'pg';
-import app from './app';
-
 dotenv.config();
 
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }  
-});
-
+import app from './app';
+import { pool } from './db';
 
 pool
   .connect()
   .then(() => {
     console.log('✅ Connected to Postgres');
 
-    
     app.locals.pool = pool;
 
     const PORT = process.env.PORT || 3000;
@@ -28,5 +20,3 @@ pool
     console.error('❌ Postgres connection error:', err);
     process.exit(1);
   });
-
-  

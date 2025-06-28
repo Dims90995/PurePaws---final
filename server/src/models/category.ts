@@ -4,5 +4,6 @@ export interface Category {
   name: string;
   type: 'pet' | 'car' | 'realestate' | 'general';
   color: string;
+  location: string;
   fields: CategoryField[];
 }

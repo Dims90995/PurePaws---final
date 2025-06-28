@@ -1,5 +1,9 @@
+DROP TABLE IF EXISTS ads;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users (
-    _id VARCHAR(36) PRIMARY KEY,
+    _id VARCHAR(12) PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -12,17 +16,20 @@ CREATE TABLE users (
     createdAt INT NOT NULL
 );
 CREATE TABLE categories (
-  id UUID PRIMARY KEY,
+  id VARCHAR(12) PRIMARY KEY,
   name TEXT NOT NULL,
   type TEXT NOT NULL CHECK (type IN ('pet', 'car', 'realestate', 'general')),
   color TEXT NOT NULL,
+  location TEXT,
   schema JSONB NOT NULL
 );
+
 CREATE TABLE ads (
-  id UUID PRIMARY KEY,
+  id VARCHAR(12) PRIMARY KEY,
   title TEXT NOT NULL,
   price NUMERIC NOT NULL,
   description TEXT NOT NULL,
-  category_id UUID REFERENCES categories(id) ON DELETE CASCADE,
+  category_id VARCHAR(12) REFERENCES categories(id) ON DELETE CASCADE,
+  location TEXT NOT NULL,
   dynamic_fields JSONB NOT NULL
 );

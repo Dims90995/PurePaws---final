@@ -1,24 +1,32 @@
 import { pool } from '../db';
-import { allCategories } from '../models/categories';
+import { getAllCategories } from '../models/categories';
 
-async function seedCategories() {
-  for (const cat of allCategories) {
+export async function seedCategories() {
+  const categories = await getAllCategories();
+
+  for (const category of categories) {
     await pool.query(
-      `INSERT INTO categories (id, name, type, color, schema)
-       VALUES ($1, $2, $3, $4, $5)
-       ON CONFLICT (id) DO UPDATE SET
-         name = EXCLUDED.name,
-         type = EXCLUDED.type,
-         color = EXCLUDED.color,
-         schema = EXCLUDED.schema`,
-      [cat.id, cat.name, cat.type, cat.color, JSON.stringify(cat.fields)]
+      `INSERT INTO categories (id, name, type, color, location, schema)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       ON CONFLICT (id) DO NOTHING`,
+      [
+        category.id,
+        category.name,
+        category.type,
+        category.color,
+        category.location ?? null, 
+        JSON.stringify(category.fields)
+      ]
     );
   }
-  console.log('✅ Categories seeded or updated');
-  process.exit();
 }
 
-seedCategories().catch((err) => {
-  console.error('❌ Failed to seed categories', err);
-  process.exit(1);
-});
+seedCategories()
+  .then(() => {
+    console.log('✅ Categories seeded');
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error('❌ Failed to seed categories', err);
+    process.exit(1);
+  });
