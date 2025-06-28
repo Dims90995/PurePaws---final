@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { pool } from '../db';
 
 export const createAd = async (req: Request, res: Response) => {
-  const { title, price, description, categoryId,location, dynamicFields } = req.body;
+  const { title, price, description, categoryId, location, dynamicFields } = req.body;
 
   if (!title || !price || !description || !categoryId || !location || !dynamicFields) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -40,12 +40,13 @@ export const createAd = async (req: Request, res: Response) => {
     }
 
     const id = crypto.randomUUID().slice(0, 10);
-    await pool.query(
-      `INSERT INTO ads (id, title, price, description, category_id,location, dynamic_fields)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [id, title, price, description, categoryId,location, JSON.stringify(dynamicFields)]
+    const result = await pool.query(
+      `INSERT INTO ads (id, title, price, description, category_id, location, dynamic_fields)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING id, title, price, description, category_id, location, dynamic_fields, created_at, updated_at`,
+      [id, title, price, description, categoryId, location, JSON.stringify(dynamicFields)]
     );
-    res.status(201).json({ message: 'Ad created', id });
+    res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error('Failed to create ad:', err);
     res.status(500).json({ error: 'Internal server error' });
@@ -68,7 +69,7 @@ export const getAdsByCategory = async (req: Request, res: Response) => {
     const category = categoryResult.rows[0];
 
     const result = await pool.query(
-      `SELECT * FROM ads WHERE category_id = $1`,
+      `SELECT id, title, price, description, location, dynamic_fields, created_at, updated_at FROM ads WHERE category_id = $1`,
       [categoryId]
     );
     res.status(200).json({ ads: result.rows, expectedFields: category.schema });

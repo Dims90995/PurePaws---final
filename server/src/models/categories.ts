@@ -14,7 +14,9 @@ export async function getAllCategories(): Promise<Category[]> {
       { name: 'breed', type: 'string', required: true },
       { name: 'age', type: 'number', required: false },
       { name: 'gender', type: 'string', required: false },
-    ]
+    ],
+    createdAt: null,
+    updatedAt: null
   };
 
   return [petCategory];

@@ -15,13 +15,16 @@ CREATE TABLE users (
     user_id VARCHAR(36) UNIQUE NOT NULL,
     createdAt INT NOT NULL
 );
+
 CREATE TABLE categories (
   id VARCHAR(12) PRIMARY KEY,
   name TEXT NOT NULL,
   type TEXT NOT NULL CHECK (type IN ('pet', 'car', 'realestate', 'general')),
   color TEXT NOT NULL,
   location TEXT,
-  schema JSONB NOT NULL
+  schema JSONB NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE ads (
@@ -31,5 +34,38 @@ CREATE TABLE ads (
   description TEXT NOT NULL,
   category_id VARCHAR(12) REFERENCES categories(id) ON DELETE CASCADE,
   location TEXT NOT NULL,
-  dynamic_fields JSONB NOT NULL
+  dynamic_fields JSONB NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE OR REPLACE FUNCTION update_updated_at_category()
+RETURNS TRIGGER AS $$
+BEGIN
+   NEW.updated_at = NOW();
+   RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+DROP TRIGGER IF EXISTS set_timestamp_category ON categories;
+
+CREATE TRIGGER set_timestamp_category
+BEFORE UPDATE ON categories
+FOR EACH ROW
+EXECUTE PROCEDURE update_updated_at_category();
+
+
+CREATE OR REPLACE FUNCTION update_updated_at_ad()
+RETURNS TRIGGER AS $$
+BEGIN
+   NEW.updated_at = NOW();
+   RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+DROP TRIGGER IF EXISTS set_timestamp_ad ON ads;
+
+CREATE TRIGGER set_timestamp_ad
+BEFORE UPDATE ON ads
+FOR EACH ROW
+EXECUTE PROCEDURE update_updated_at_ad();

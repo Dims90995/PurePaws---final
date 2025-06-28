@@ -30,7 +30,7 @@ export async function getCategoryById(req: Request, res: Response) {
 }
 
 export async function createCategory(req: Request, res: Response) {
-  const { name, type, color,location, fields } = req.body as Partial<Category>;
+  const { name, type, color, location, fields } = req.body as Partial<Category>;
 
   if (!name || typeof name !== 'string') return res.status(400).json({ error: 'Invalid name' });
   if (!['pet', 'car', 'realestate', 'general'].includes(type || '')) return res.status(400).json({ error: 'Invalid type' });
@@ -39,14 +39,15 @@ export async function createCategory(req: Request, res: Response) {
   if (!fields || !Array.isArray(fields)) return res.status(400).json({ error: 'Invalid fields' });
 
   const id = crypto.randomUUID().slice(0, 10);
-  const category: Category = { id, name, type: type as any, color,location, fields, };
+  const category: Category = { id, name, type: type as any, color, location, fields };
 
   try {
-    await pool.query(
-      'INSERT INTO categories (id, name, type, color, location, schema) VALUES ($1, $2, $3, $4, $5, $6)',
-      [category.id, category.name, category.type, category.color, JSON.stringify(category.fields), category.location]
+    const result = await pool.query(
+      'INSERT INTO categories (id, name, type, color, location, schema) VALUES ($1, $2, $3, $4, $5, $6) RETURNING created_at, updated_at',
+      [category.id, category.name, category.type, category.color, category.location, JSON.stringify(category.fields)]
     );
-    res.status(201).json(category);
+    const { created_at, updated_at } = result.rows[0];
+    res.status(201).json({ ...category, created_at, updated_at });
   } catch (error) {
     res.status(500).json({ error: 'Failed to insert category' });
   }

@@ -6,4 +6,6 @@ export interface Category {
   color: string;
   location: string;
   fields: CategoryField[];
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }

@@ -6,4 +6,6 @@ export interface Ad {
   categoryId: string;
   location: string;
   dynamicFields: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
 }

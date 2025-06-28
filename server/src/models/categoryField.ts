@@ -3,4 +3,6 @@ export interface CategoryField {
   type: 'string' | 'number' | 'boolean' | 'date';
   required: boolean;
   location?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
