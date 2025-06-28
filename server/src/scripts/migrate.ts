@@ -1,8 +1,10 @@
 import { readFile } from 'fs/promises';
-import { pool } from '../src/db';
+import path from 'path';
+import { pool } from '../db';
 
 async function migrate() {
-  const sql = await readFile('server/db-migrations/create_tables.sql', 'utf8');
+  const sqlPath = path.resolve(__dirname, '../../db-migrations/001-init.sql');
+  const sql = await readFile(sqlPath, 'utf8');
   await pool.query(sql);
   console.log('✅ Migration complete');
   process.exit();
