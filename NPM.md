@@ -11,6 +11,7 @@ npm install --save-dev style-loader
 npm install -D sass-embedded
 npm install --save-dev typescript
 npm install --save-dev ts-node-dev
+npm install --save-dev ts-node
 npm install --save-dev @types/node @types/express @types/react @types/react-dom
 ```
 
@@ -49,17 +50,22 @@ cd server
 npm run dev
 ```
 
----
-
 ## To run frontend:
 ```bash
 cd purepaws
 npm run dev
 ```
 
----
-
 ## To build the deployment:
 ```bash
 npm run build
 ```
+
+---
+
+## To seed initial categories:
+```bash
+npm run seed:categories
+```
+
+*Inserts or updates predefined categories (e.g., "חיות") from `src/models/categories.ts` into the database.*
