@@ -1,11 +1,14 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { Pool } from 'pg';
+import adsRoutes from './routers/ads';
+import categoriesRoutes from './routers/categories';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use('/api/ads', adsRoutes);
+app.use('/api/categories', categoriesRoutes);
 
 app.get('/api', (_req: Request, res: Response) => {
   res.json({ message: 'Server is running!' });
