@@ -11,9 +11,18 @@ CREATE TABLE users (
     user_id VARCHAR(36) UNIQUE NOT NULL,
     createdAt INT NOT NULL
 );
-CREATE TABLE category (
-    _id VARCHAR(36) PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    type VARCHAR(50),
-    color VARCHAR(20)
+CREATE TABLE categories (
+  id UUID PRIMARY KEY,
+  name TEXT NOT NULL,
+  type TEXT NOT NULL CHECK (type IN ('pet', 'car', 'realestate', 'general')),
+  color TEXT NOT NULL,
+  schema JSONB NOT NULL
+);
+CREATE TABLE ads (
+  id UUID PRIMARY KEY,
+  title TEXT NOT NULL,
+  price NUMERIC NOT NULL,
+  description TEXT NOT NULL,
+  category_id UUID REFERENCES categories(id) ON DELETE CASCADE,
+  dynamic_fields JSONB NOT NULL
 );
