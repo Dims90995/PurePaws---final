@@ -11,3 +11,9 @@ CREATE TABLE users (
     user_id VARCHAR(36) UNIQUE NOT NULL,
     createdAt INT NOT NULL
 );
+CREATE TABLE category (
+    _id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    type VARCHAR(50),
+    color VARCHAR(20)
+);
