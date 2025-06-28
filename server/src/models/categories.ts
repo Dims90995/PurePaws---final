@@ -1,4 +1,4 @@
-import { Category } from '../models/category';
+import { Category } from './category';
 import { v4 as uuidv4 } from 'uuid';
 
 export const petCategory: Category = {

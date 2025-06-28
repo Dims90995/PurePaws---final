@@ -1,4 +1,4 @@
-import { CategoryField } from './CategoryField';
+import { CategoryField } from './categoryField';
 export interface Category {
   id: string;
   name: string;
