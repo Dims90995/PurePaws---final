@@ -1,10 +1,14 @@
-import { Pool } from 'pg';
+import { readFile } from 'fs/promises';
+import { pool } from '../src/db';
 
-//fill after creating the database
-const pool = new Pool({
-  user: 'your_user',
-  host: 'localhost',
-  database: 'your_db',
-  password: 'your_password',
-  port: 5432,
+async function migrate() {
+  const sql = await readFile('server/db-migrations/create_tables.sql', 'utf8');
+  await pool.query(sql);
+  console.log('✅ Migration complete');
+  process.exit();
+}
+
+migrate().catch((err) => {
+  console.error('❌ Migration failed', err);
+  process.exit(1);
 });
