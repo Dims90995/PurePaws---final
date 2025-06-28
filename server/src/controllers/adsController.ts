@@ -153,3 +153,20 @@ export const getAdById = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const deleteAd = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query('DELETE FROM ads WHERE id = $1 RETURNING *', [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Ad not found' });
+    }
+
+    res.status(200).json({ message: 'Ad deleted successfully', ad: result.rows[0] });
+  } catch (err) {
+    console.error('Failed to delete ad:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
