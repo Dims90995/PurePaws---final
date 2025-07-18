@@ -4,7 +4,7 @@ import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-console.log('🔍 PG_HOST:', process.env.PG_HOST);
+console.log('PG_HOST:', process.env.PG_HOST);
 export const pool = new Pool({
   user: String(process.env.PG_USER),
   host: String(process.env.PG_HOST),

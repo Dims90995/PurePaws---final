@@ -1,3 +1,4 @@
+-- for testing only-- DO NOT USE IN PRODUCTION
 DROP TABLE IF EXISTS ads;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS users;
